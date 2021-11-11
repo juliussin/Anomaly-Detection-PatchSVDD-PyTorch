@@ -54,6 +54,7 @@ def train():
     print('Start training')
     for i_epoch in range(args.epochs):
         if i_epoch != 0:
+            print(i_epoch)
             for module in modules:
                 module.train()
 

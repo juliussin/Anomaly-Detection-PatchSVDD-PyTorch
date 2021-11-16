@@ -70,10 +70,10 @@ def train(args, experiment):
                 experiment.log_metric("loss_svdd_32", loss_svdd_32, step=i_epoch)
                 
 
-
-            aurocs = eval_encoder_NN_multiK(enc, obj)
-            log_result(obj, aurocs, i_epoch, experiment)
-            enc.save(obj)
+            if i_epoch % args.eval_interval == 0 or i_epoch == 0:
+                aurocs = eval_encoder_NN_multiK(enc, obj)
+                log_result(obj, aurocs, i_epoch, experiment)
+                enc.save(obj)
 
 
 def log_result(obj, aurocs, i_epoch, experiment):
@@ -109,6 +109,7 @@ def parse_args():
     parser.add_argument('--D', default=64, type=int)
 
     parser.add_argument('--epochs', default=300, type=int)
+    parser.add_argument('--eval_interval', default=20, type=int)
     parser.add_argument('--lr', default=1e-4, type=float)
     parser.add_argument('--dataset', default="./dataset/mvtec_anomaly_detection/", type=str)
     return parser.parse_args()

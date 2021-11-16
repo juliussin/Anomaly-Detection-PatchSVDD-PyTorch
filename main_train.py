@@ -1,3 +1,4 @@
+import os
 import argparse
 import torch
 from codes import mvtecad
@@ -16,8 +17,12 @@ parser.add_argument('--D', default=64, type=int)
 
 parser.add_argument('--epochs', default=300, type=int)
 parser.add_argument('--lr', default=1e-4, type=float)
+parser.add_argument('--dataset', default="./dataset/mvtec_anomaly_detection/", type=str)
 
 args = parser.parse_args()
+
+os.environ['DATASET_PATH'] = args.dataset
+mvtecad.set_root_path(args.dataset)
 
 
 def train():

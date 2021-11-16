@@ -45,17 +45,17 @@ def train(args, experiment):
 
     print('Start training')
     with experiment.train():
-        step = 0
         for i_epoch in tqdm(range(args.epochs)):
             if i_epoch != 0:
                 print(i_epoch)
                 for module in modules:
                     module.train()
-
+                i = 0 
                 for d in loader:
                     d = to_device(d, 'cuda', non_blocking=True)
                     opt.zero_grad()
-
+                    i += 1
+                    print(i)
                     loss_pos_64 = PositionClassifier.infer(cls_64, enc, d['pos_64'])
                     loss_pos_32 = PositionClassifier.infer(cls_32, enc.enc, d['pos_32'])
                     loss_svdd_64 = SVDD_Dataset.infer(enc, d['svdd_64'])

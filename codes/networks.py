@@ -215,15 +215,11 @@ class PositionClassifier(nn.Module):
     def __init__(self, K, D, class_num=8):
         super().__init__()
         self.D = D
-
         self.fc1 = nn.Linear(D, 128)
         self.act1 = nn.LeakyReLU(0.1)
-
         self.fc2 = nn.Linear(128, 128)
         self.act2 = nn.LeakyReLU(0.1)
-
         self.fc3 = NormalizedLinear(128, class_num)
-
         self.K = K
 
     def save(self, name):
@@ -252,15 +248,11 @@ class PositionClassifier(nn.Module):
     def forward(self, h1, h2):
         h1 = h1.view(-1, self.D)
         h2 = h2.view(-1, self.D)
-
         h = h1 - h2
-
         h = self.fc1(h)
         h = self.act1(h)
-
         h = self.fc2(h)
         h = self.act2(h)
-
         h = self.fc3(h)
         return h
 

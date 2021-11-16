@@ -50,21 +50,26 @@ def train(args, experiment):
                 print(i_epoch)
                 for module in modules:
                     module.train()
-                i = 0 
                 for d in loader:
                     d = to_device(d, 'cuda', non_blocking=True)
                     opt.zero_grad()
-                    i += 1
-                    print(i)
                     loss_pos_64 = PositionClassifier.infer(cls_64, enc, d['pos_64'])
                     loss_pos_32 = PositionClassifier.infer(cls_32, enc.enc, d['pos_32'])
                     loss_svdd_64 = SVDD_Dataset.infer(enc, d['svdd_64'])
                     loss_svdd_32 = SVDD_Dataset.infer(enc.enc, d['svdd_32'])
 
                     loss = loss_pos_64 + loss_pos_32 + args.lambda_value * (loss_svdd_64 + loss_svdd_32)
-
+                    
                     loss.backward()
                     opt.step()
+                print("Loss: ", loss)
+                experiment.log_metric("Loss", loss, step=i_epoch)
+                experiment.log_metric("loss_pos_64", loss_pos_64, step=i_epoch)
+                experiment.log_metric("loss_pos_32", loss_pos_32, step=i_epoch)
+                experiment.log_metric("loss_svdd_64", loss_svdd_64, step=i_epoch)
+                experiment.log_metric("loss_svdd_32", loss_svdd_32, step=i_epoch)
+                
+
 
             aurocs = eval_encoder_NN_multiK(enc, obj)
             log_result(obj, aurocs, i_epoch, experiment)

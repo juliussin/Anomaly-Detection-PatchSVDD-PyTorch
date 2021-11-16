@@ -8,3 +8,4 @@ Pillow
 imageio
 opencv-python
 ngt
+comet_ml

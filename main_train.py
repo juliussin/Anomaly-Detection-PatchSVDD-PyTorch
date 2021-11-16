@@ -8,6 +8,7 @@ from codes.datasets import *
 from codes.networks import *
 from codes.inspection import eval_encoder_NN_multiK
 from codes.utils import *
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 
@@ -57,7 +58,7 @@ def train():
         loader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=2, pin_memory=True)
 
     print('Start training')
-    for i_epoch in range(args.epochs):
+    for i_epoch in tqdm(range(args.epochs)):
         if i_epoch != 0:
             print(i_epoch)
             for module in modules:

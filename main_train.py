@@ -122,7 +122,7 @@ if __name__ == '__main__':
     mvtecad.set_root_path(args.dataset)
 
     ## 2. Setup Comet ML
-    experiment = Experiment(api_key="cflnxIlb8WLD8q5235GDSxyXA", project_name="general", workspace="kelvinliu04",)
+    experiment = Experiment(api_key="cflnxIlb8WLD8q5235GDSxyXA", project_name="patch-svdd", workspace="kelvinliu04",)
     experiment.log_parameters(args)
 
     ## 3. Train

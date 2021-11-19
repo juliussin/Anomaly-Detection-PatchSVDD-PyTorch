@@ -162,8 +162,8 @@ class EncoderHier(nn.Module):
     def save(self, name, n):
         fpath = self.fpath_from_name(name)
         makedirpath(fpath)
-        newpath = fpath[:-3]+str(n)+fpath[-3:]
-        torch.save(self.state_dict(), fpath)
+        newpath = fpath[:-4]+str(n)+fpath[-4:]
+        torch.save(self.state_dict(), new_path)
 
     def load(self, name):
         fpath = self.fpath_from_name(name)

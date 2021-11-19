@@ -2,6 +2,8 @@ from comet_ml import Experiment
 import os
 import argparse
 import torch
+from torchvision import transforms
+from codes.augmentation import *
 from codes import mvtecad
 from functools import reduce
 from torch.utils.data import DataLoader
@@ -31,6 +33,11 @@ def train(args, experiment):
     with task('Datasets'):
         train_x = mvtecad.get_x_standardized(obj, mode='train')
         train_x = NHWC2NCHW(train_x)
+
+        transforms = transforms.Compose([
+            transforms.ColorJitter(brightness=0.1, contrast=0.2),
+            AddGaussianNoise(0.1, 0.08)
+        ])
 
         rep = 100
         datasets = dict()
@@ -73,7 +80,7 @@ def train(args, experiment):
             if i_epoch % args.eval_interval == 0 or i_epoch == 0:
                 aurocs = eval_encoder_NN_multiK(enc, obj)
                 log_result(obj, aurocs, i_epoch, experiment)
-                enc.save(obj)
+                enc.save(obj, i_epoch)
 
 
 def log_result(obj, aurocs, i_epoch, experiment):

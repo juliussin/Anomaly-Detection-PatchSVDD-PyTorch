@@ -78,11 +78,12 @@ pos_to_diff = {
 
 
 class SVDD_Dataset(Dataset):
-    def __init__(self, memmap, K=64, repeat=1):
+    def __init__(self, memmap, K=64, repeat=1, transforms=None):
         super().__init__()
         self.arr = np.asarray(memmap)
         self.K = K
         self.repeat = repeat
+        self.transforms = transforms
 
     def __len__(self):
         N = self.arr.shape[0]
@@ -115,11 +116,12 @@ class SVDD_Dataset(Dataset):
 
 
 class PositionDataset(Dataset):
-    def __init__(self, x, K=64, repeat=1):
+    def __init__(self, x, K=64, repeat=1, transforms=None):
         super(PositionDataset, self).__init__()
         self.x = np.asarray(x)
         self.K = K
         self.repeat = repeat
+        self.transforms = transforms
 
     def __len__(self):
         N = self.x.shape[0]

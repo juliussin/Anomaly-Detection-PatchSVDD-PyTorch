@@ -3,15 +3,19 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--obj', default='screw')
+parser.add_argument('--path')
 args = parser.parse_args()
 
 
-def do_evaluate_encoder_multiK(obj):
+def do_evaluate_encoder_multiK(obj, defined_path):
     from codes.inspection import eval_encoder_NN_multiK
     from codes.networks import EncoderHier
 
     enc = EncoderHier(K=64, D=64).cuda()
-    enc.load(obj)
+    if defined_path is None:
+        enc.load(obj)
+    else:
+        enc.load(obj, defined_path)
     enc.eval()
     results = eval_encoder_NN_multiK(enc, obj)
 
@@ -35,7 +39,7 @@ def do_evaluate_encoder_multiK(obj):
 
 
 def main():
-    do_evaluate_encoder_multiK(args.obj)
+    do_evaluate_encoder_multiK(args.obj, args.path)
 
 
 if __name__ == '__main__':

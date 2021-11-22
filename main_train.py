@@ -34,7 +34,7 @@ def train(args, experiment):
         train_x = mvtecad.get_x_standardized(obj, mode='train')
         train_x = NHWC2NCHW(train_x)
 
-        transforms = transforms.Compose([
+        transform = transforms.Compose([
             transforms.ColorJitter(brightness=0.1, contrast=0.2),
             AddGaussianNoise(0.1, 0.08)
         ])
